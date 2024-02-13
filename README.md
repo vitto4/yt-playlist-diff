@@ -110,6 +110,8 @@ When you're done recovering videos, **don't forget to make new clean archive of 
 
 The JS bookmarklet is a *(very)* heavily modified version of [AI Max's code](https://www.quora.com/Is-there-a-way-to-save-the-video-titles-from-a-YouTube-playlist-and-SoundCloud-likes-into-a-text-file-or-some-other-file/answer/Al-Max-2) on Quora.
 
+I initially made this for my own use, but I hope it can be useful to others as well :)
+
 You can probably tell that I don't really know what I'm doing with JS haha, feel free to PR if you want to fix anything.
 
 Also, the comments, readme, and `CHANGELOG.md` are probably a bit overkill for such a small project, but I figured it was a great way to learn github releases, semantic versioning and what not.
@@ -118,4 +120,4 @@ I had a surprisingly hard time to try and explain how to actually use my code, t
 
 ## 🧩 Contributing
 
-Contributions are welcome ! The bookmarklet will probably need frequent maintenance as youtube seem to like making slight changes to their frontend pretty often.
+Contributions are welcome ! The bookmarklet will probably need frequent maintenance as youtube seem to like making slight adjustments to their frontend pretty often ﹥∼﹤
