@@ -16,7 +16,8 @@ function getOffset() {
     // We want to go over every elements in `videos`, and update the offset for every invalid element detected.
     for (var i = 0; i < videos.length; i++) {
         // If the outer html is contains the following string, the element is valid. The offset remains the same.
-        if ((i < channels.length) && (channels[i].parentNode.outerHTML.toString().includes("style-scope ytd-channel-name complex-string"))) {
+        // `offsetParent` is being used to check whether the element is displayed. If not, it isn't valid.
+        if ((i < channels.length) && (channels[i].parentNode.outerHTML.toString().includes("style-scope ytd-channel-name complex-string")) && (channels[i].offsetParent !== null)) {
             // console.log("[OFFSET] Valid element : " + channels[i].innerHTML.trim())
         } else if (i >= channels.length) {   // If `i` is more than the total amount of channels (could happen because private/deleted videos have a title, but no associated channel), ignore.
             // console.log("[OFFSET] Overflow")
@@ -197,7 +198,7 @@ function mainArchiveLogic() {
     var titles = "";
 
     // Run the whole code.
-    titles += metadata() + "index, id, title, artist, artistUrl, isUnavailable\n" + getTitlesCsv();
+    titles += metadata() + "index, id, isUnavailable, artist, artistUrl, title\n" + getTitlesCsv();
     fName = fileName();
     fName += ".csv"
     // If export was successful, save the file.
