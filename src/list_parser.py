@@ -218,7 +218,7 @@ def analyse(recovered: dict):
     lost_total = len(recovered)                                                                             # Number of videos marked as unavailable
 
 
-    print(Fore.RED + Style.BRIGHT + txt.indent_arrow + f"{lost_total} video(s)" + txt.RS + " was/were found to be lost in the newest archive provided... =(\n" + txt.indent_simple + "But don't worry, this script has got you covered " +  Style.BRIGHT + "|•'-'•)و✧ " + txt.RS)
+    print(Fore.RED + Style.BRIGHT + txt.indent_arrow + f"{lost_total} video(s)" + txt.RS + " were found to be lost in the newest archive provided... =(\n" + txt.indent_simple + "But don't worry, this script has got you covered " +  Style.BRIGHT + "|•'-'•)و✧ " + txt.RS)
 
 
     # -------------------------------- LOST VIDEOS ------------------------------- #
@@ -263,14 +263,14 @@ def analyse(recovered: dict):
         # Setting up the table for lost videos (output)
         recovered_table = pt.PrettyTable(padding_width=3)
         recovered_table.set_style(pt.SINGLE_BORDER)
-        recovered_table.field_names = [txt.header_yt_id_recovered, txt.header_index, txt.header_title, txt.header_artist, txt.header_url]
+        recovered_table.field_names = [txt.header_yt_id_recovered, txt.header_index, txt.header_title, txt.header_channel, txt.header_url]
         
         user_instructions += txt.instruction_recovered                                                                              # Add instructions
 
         for idx in range(len(recovered_data)):
             recovered_table.add_row([Fore.GREEN + recovered_data[idx][1][1] + txt.RS, Fore.BLUE + recovered_data[idx][0] + txt.RS, recovered_data[idx][1][5], recovered_data[idx][1][3], recovered_data[idx][1][4]])                                                                                                                # Skip a line
         print("\n" + txt.separator_line + "\n")
-        print(Fore.GREEN + Style.BRIGHT + txt.indent_arrow + f"[{len(recovered_data)}/{lost_total}]" + txt.RS + " was/were successfully recovered :")
+        print(Fore.GREEN + Style.BRIGHT + txt.indent_arrow + f"[{len(recovered_data)}/{lost_total}]" + txt.RS + " were successfully recovered :")
         print(recovered_table)
 
     # ----------------------------- USER INSTRUCTIONS ---------------------------- #
