@@ -1,3 +1,7 @@
+## [2.0.0] - [2024-08-07]
+- Transition from the bookmarklet to `yt-dlp` --> both dumps and diffs are handled by the python script
+- New zipapp release format
+
 ## [1.0.0] - [2024-02-12]
 - Release
 - Added MPL
