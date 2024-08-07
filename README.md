@@ -1,4 +1,4 @@
-# yt-playlist-bookmarklet
+# yt-playlist-diff
 <p align="center">
   <a href="https://youtube.com">
     <img alt="YouTube" src="https://img.shields.io/badge/YouTube-%23FF0000.svg?&logo=YouTube&logoColor=white"
@@ -6,14 +6,14 @@
   <a href="https://python.org/downloads">
     <img alt="Python" src="https://img.shields.io/badge/python-3.4+-blue.svg"
   /></a>
-  <a href="https://github.com/vitto4/yt-playlist-bookmarklet/releases">
-    <img alt="GitHub Release" src="https://img.shields.io/github/v/release/vitto4/yt-playlist-bookmarklet"
+  <a href="https://github.com/vitto4/yt-playlist-diff/releases">
+    <img alt="GitHub Release" src="https://img.shields.io/github/v/release/vitto4/yt-playlist-diff"
   /></a>
   
 
 </p>
 
-<p align="center"><i>A youtube playlist archiver bookmarklet, and its companion archive parser tool.</i></p>
+<p align="center"><i>A script to dump and diff YouTube playlists.</i></p>
 
 ![screenshot.png](misc/example.png)
 
@@ -27,22 +27,58 @@
 
 ## ☁ Overview
 
-When a video goes private or is deleted, it will appear as such in youtube playlists, making it difficult for the user to figure out what the original video was.
+When a video goes private or is deleted, it will appear as such in YouTube playlists, making it difficult for the user to figure out what the original video was.
 
-This project is my attempt at solving the problem. It consists of :
-- A bookmarklet `src/bookmarklet.js`. It will dump/export for you the contents of any youtube playlist you can view through your browser. Outputs a `csv` archive.
-- A parser script `src/list_parser.py` to quickly analyse (diff) two archives of the same playlist. It will compile a list of all videos that went missing, along with their original title and channel if available in the older archive.
+This project is my attempt at solving the problem. It consists of a script that can both :
+- Dump for you the contents of any YouTube playlist you can view through your browser. Outputs a `csv` archive.
+- Perform a `diff` on two archives of the same playlist to compile a list of all videos that went missing, along with their original title and channel if available in the older archive.
 
-All in all, it should enable you to export a youtube playlist in `csv` format (see example bellow), and hopefully to keep track of which video disappears over the course of time.
+<details>
+  <summary>Usage</summary>
 
-The major advantage of this approach is that it'll work regardless of whether the playlist is set to public or private.
+```
+Usage: main.py [-h] OPERATION ...
+
+| Fetch a YouTube playlist using its ID.
+| Dump it into a CSV archive.
+| Diff two archives of the same playlist to (hopefully) recover lost videos.
+
+Positional Arguments:
+  OPERATION
+    dump      Dump the playlist into a CSV archive.
+    up-diff   Fetch upstream and perform a diff with your local archive.
+    local-diff
+              Perform a local diff between two archives.
+
+Options:
+  -h, --help  show this help message and exit
+
+| Examples :
+|
+|  * Dump a playlist
+|    > script.pyz dump --id LOremipSUmdolOrsiTamEtConseCtETuRA --browser chrome --output ./cool_playlist.csv
+|
+|  * Diff an archive with upstream
+|    > script.pyz up-diff --diff-base ./trendy_memes.csv --browser firefox
+|
+|  * Diff two local archives
+|    > script.pyz local-diff --diff-base ./dusty_old_archive.csv --diff-with ./shiny_new_archive.csv
+|
+```
+
+</details>
+
+
+All in all, it should enable you to keep track of which video vanishes over the course of time.
+
+The major advantage of this approach is that it'll work regardless of whether the playlist is set to public or private, as long as you tell the script in which browser you're logged into YouTube.
 
 Here's an example of the structure of an archive :
 
 ```csv
 Playlist ID : LOremipSUmdolOrsiTamEtConseCtETuRA
 Archived on : 1704067200000
-index, id, isUnavailable, artist, artistUrl, title
+index, id, isUnavailable, channel, channelUrl, title
 1, GGrFShhGRWc, True, "Unknown artist", "Unknown link", "[Deleted video]"
 2, dQw4w9WgXcQ, False, "Rick Astley", "https://www.youtube.com/channel/UCuAXFkgsw1L7xaCfnd5JJOw", "Rick Astley - Never Gonna Give You Up (Official Music Video)"
 3, ...
@@ -51,73 +87,135 @@ index, id, isUnavailable, artist, artistUrl, title
 
 ## 💾 Installation
 
-### Bookmarklet
+1. Make sure you have [Python](https://www.python.org/downloads/) installed.
+2. Grab both `requirements.txt` and `script.pyz` from the latest [release](https://github.com/vitto4/yt-playlist-diff/releases).
+3. Install the required dependencies. I recommend using a [venv](https://docs.python.org/3/tutorial/venv.html).
 
-This is the piece of code that will interact with the youtube frontend.
-
-To get it set up quickly, I suggest copying the contents of `src/bookmarklet.js` into [make-bookmarklets.com](https://make-bookmarklets.com/), clicking *create bookmarklet*, and dragging the red button to your bookmark bar.
-
-If you want to install it manually and don't know how to proceed (or are just curious), [this](https://www.freecodecamp.org/news/what-are-bookmarklets/) is the way to go. Please note that if you do it this way, you may have to strip all comments from the code for it to work properly
-
-### Parser
-
-A tool made to help you analyse and compare your archives.
-
-Make sure you have [Python](https://www.python.org/downloads/) installed, grab the latest [release](https://github.com/vitto4/yt-playlist-bookmarklet/releases), and unzip it.
-
-For dependencies you can use a [venv](https://docs.python.org/3/tutorial/venv.html). If you're on linux :
+If you're on linux :
 
 ```sh
-$ python3 -m venv plist
-$ source plist/bin/activate
+$ python3 -m venv env
+$ source env/bin/activate
 (env) $ pip install -r requirements.txt
 ```
 Or for windows :
 ```bat
-> py -m venv plist
-> plist\Scripts\activate.bat
+> py -m venv env
+> env\Scripts\activate.bat
 (env) > pip install -r requirements.txt
 ```
+
+4. You're all set. The script is distributed as a python [zipapp](https://docs.python.org/3/library/zipapp.html) (`.pyz` file), but fear not, you can run it like any other python script.
 
 ## 📚 Usage
 
 ### General workflow
 
-![screenshot.png](misc/diagram.drawio.svg)
+![](misc/diagram.drawio.svg)
 
-### Archiving a playlist
 
-1. **Open the playlist** you want to archive. The url should look something like `youtube.com/playlist?list=<PlaylistID>`
-2. **Reload the page**. This is important, as it seems youtube sometimes keeps the previous page's data in the html source of the current page. TL;DR, if you don't reload, you may find unwanted videos in your archive.
-3. If applicable, **click on the three dots** to the left of the page and **select « Show unavailable videos »**. If it's not showing up even though your playlist contains unavailable videos, try to *Sort by* something else, reload the page, and restore your preferred sorting.
-4. **Scroll all the way down**. This is needed as it forces youtube to load the whole playlist in your browser. **This can also be done automatically by the bookmarklet** (see next step).
-5. **Click the bookmarklet**. (It should already be in your bookmark bar by now, if not, see [💾 Installation](#-installation).)
-6. **Save the file**, keep it somewhere, this is the final product, and it'll come in handy later. (see [Recovering videos](#recovering-videos))
+#### 1 : Dump your playlist
 
-### Recovering videos
+The first step is to make a clean archive of your playlist. We'll call it *BASE*.
 
-1. Make sure you have an older, **clean archive** of your playlist. We'll call it *BASE*
-2. **Make a temporary archive** of your playlist (I'll refer to it as *TEMP*). Also make sure to have youtube display unavailable videos in you playlist beforehand. (see [Archiving a playlist, step 3.](#archiving-a-playlist))
-3. **Run** the script :
+<details>
+  <summary>Usage</summary>
 
-```sh
-$ python3 list_parser.py <path_to_base>.csv <path_to_temp>.csv
+```
+Usage: script.pyz dump [-h] --id PLAYLIST_ID [--browser BROWSER] [--output PATH]
+
+Options:
+  -h, --help         show this help message and exit
+  --id PLAYLIST_ID   YouTube ID of the playlist to dump
+                     E.g. : `LOremipSUmdolOrsiTamEtConseCtETuRA`.
+  --browser BROWSER  Browser to use for session cookies (required to access private playlists when fetching)
+                     E.g. : `chrome`, `firefox`.
+  --output PATH      Customize the path (and name) of the output archive
+                     E.g. : `./folder/my_shiny_new_archive.csv`.
 ```
 
-When you're done recovering videos, **don't forget to make new clean archive of your playlist for future use**, this will be your *BASE* next time. (see [General workflow](#general-workflow)).
+</details>
+
+So you can do something like :
+
+```sh
+script.pyz dump --id <PlaylistID>
+```
+
+#### 2 : Diff two archives
+
+You have a clean archive from some time ago, and now your playlist's missing a few videos.
+To find out what these are, perform an **upstream diff**.
+
+<details>
+  <summary>Usage</summary>
+
+```
+Usage: script.pyz up-diff [-h] --diff-base PATH [--id-override PLAYLIST_ID] [--browser BROWSER]
+
+Options:
+  -h, --help            show this help message and exit
+  --diff-base PATH      Path to your existing archive in CSV format
+                        E.g. : `./dusty_old_archive.csv`.
+  --id-override PLAYLIST_ID
+                        YouTube ID of the playlist to fetch. This should be detected automatically using the archive provided in `--diff-base`.
+  --browser BROWSER     Browser to use for session cookies (required to access private playlists when fetching)
+                        E.g. : `chrome`, `firefox`.
+```
+
+</details>
+
+Hence you can run the script like :
+
+```sh
+script.pyz up-diff --diff-base ./old_archive.csv
+```
+
+This will produce a detailed report of what videos are gone, with metadata if possible (title, channel, URL, ...).
+
+Internally, the *UPSTREAM* version of the playlist is fetched directly from YouTube ; i.e. your `old_archive.csv` will be diffed against the latest version of the playlist available online.
+
+Note that this step can also be performed locally, with a **local diff**.
+
+<details>
+  <summary>Usage</summary>
+
+```
+Usage: script.pyz local-diff [-h] --diff-base PATH --diff-with PATH
+
+Options:
+  -h, --help        show this help message and exit
+  --diff-base PATH  Path to your existing archive in CSV format
+                    E.g. : `./dusty_old_archive.csv`.
+  --diff-with PATH  Path to the most recent of the two archives you want to diff.
+```
+
+</details>
+
+This enables you to provide a second archive to diff against, in place of *UPSTREAM* :
+
+```sh
+script.pyz local-diff --diff-base ./old_archive.csv --diff-with ./new_archive.csv
+```
+
+#### 3 : Dump it again
+
+When you're done recovering videos, don't forget to make a new **clean** archive of your updated/repaired playlist for future use with this script.
+
+This will prevent redundant hits next time you perform a **diff**. (i.e. a video would be flagged as lost when you have, in fact, already replaced it with a reuploaded version)
 
 ## 🔖 Additional notes
 
-The JS bookmarklet is a *(very)* heavily modified version of [AI Max's code](https://www.quora.com/Is-there-a-way-to-save-the-video-titles-from-a-YouTube-playlist-and-SoundCloud-likes-into-a-text-file-or-some-other-file/answer/Al-Max-2) on Quora.
-
-I initially made this for my own use, but I hope it can be useful to others as well :)
-
-You can probably tell that I don't really know what I'm doing with JS haha, feel free to PR if you want to fix anything.
-
-Also, the comments, readme, and `CHANGELOG.md` are probably a bit overkill for such a small project, but I figured it was a great way to learn github releases, semantic versioning and what not.
+This repo [used to host](https://github.com/vitto4/yt-playlist-diff/tree/yt-playlist-bookmarklet) a JS bookmarklet to perform the dump, but it was a bit too tedious to maintain, hence the switch to [`yt-dlp`](https://github.com/yt-dlp/yt-dlp).
 
 I had a surprisingly hard time to try and explain how to actually use my code, this is when I decided to make the [workflow diagram](#general-workflow), hopefully it clears things up a bit !
 
+I initially made this for my own use, but I hope it can be useful to others as well :)
+
+
 ## 🧩 Contributing
 
-Contributions are welcome ! The bookmarklet will probably need frequent maintenance as youtube seem to like making slight adjustments to their frontend pretty often ﹥∼﹤
+Contributions are (of course) welcome.
+
+As long as `yt-dlp` keeps working, I believe the script should not break ; hence the project probably doesn't need much updating.
+Feel free to open an issue if I've missed anything or if you need some help !
