@@ -208,6 +208,12 @@ This will prevent redundant hits next time you perform a **diff**. (i.e. a video
 
 This repo [used to host](https://github.com/vitto4/yt-playlist-diff/tree/yt-playlist-bookmarklet) a JS bookmarklet to perform the dump, but it was a bit too tedious to maintain, hence the switch to [`yt-dlp`](https://github.com/yt-dlp/yt-dlp).
 
+The zipapp is created using the following command :
+
+```sh
+python3 -m zipapp src --main=main:main --output=script.pyz
+```
+
 I had a surprisingly hard time to try and explain how to actually use my code, this is when I decided to make the [workflow diagram](#general-workflow), hopefully it clears things up a bit !
 
 I initially made this for my own use, but I hope it can be useful to others as well :)
