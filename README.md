@@ -13,7 +13,7 @@
 
 </p>
 
-<p align="center"><i>A script to dump and diff YouTube playlists.</i></p>
+<p align="center"><i>A python script to dump and diff YouTube playlists as csv archives.</i></p>
 
 ![screenshot.png](misc/example.png)
 
