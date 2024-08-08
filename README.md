@@ -37,7 +37,7 @@ This project is my attempt at solving the problem. It consists of a script that 
   <summary>Usage</summary>
 
 ```
-Usage: main.py [-h] OPERATION ...
+Usage: script.pyz [-h] OPERATION ...
 
 | Fetch a YouTube playlist using its ID.
 | Dump it into a CSV archive.
