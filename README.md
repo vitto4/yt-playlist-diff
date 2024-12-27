@@ -33,9 +33,13 @@ This project is my attempt at solving the problem. It consists of a script that 
 - Dump for you the contents of any YouTube playlist you can view through your browser. Outputs a `csv` archive.
 - Perform a `diff` on two archives of the same playlist to compile a list of all videos that went missing, along with their original title and channel if available in the older archive.
 
-<details>
-  <summary>Usage</summary>
+<br>
 
+<div align="center">    
+<details>
+  <summary><ins>Usage</ins></summary>
+  <div align="left">
+    
 ```
 Usage: script.pyz [-h] OPERATION ...
 
@@ -66,8 +70,11 @@ Options:
 |
 ```
 
+  </div>
 </details>
+</div>
 
+<br>
 
 All in all, it should enable you to keep track of which video vanishes over the course of time.
 
@@ -119,7 +126,7 @@ Or for windows :
 The first step is to make a clean archive of your playlist. We'll call it *BASE*.
 
 <details>
-  <summary>Usage</summary>
+  <summary><ins>Usage :</ins> <code>dump</code></summary>
 
 ```
 Usage: script.pyz dump [-h] --id PLAYLIST_ID [--browser BROWSER] [--output PATH]
@@ -148,7 +155,7 @@ You have a clean archive from some time ago, and now your playlist's missing a f
 To find out what these are, perform an **upstream diff**.
 
 <details>
-  <summary>Usage</summary>
+  <summary><ins>Usage :</ins> <code>up-diff</code></summary>
 
 ```
 Usage: script.pyz up-diff [-h] --diff-base PATH [--id-override PLAYLIST_ID] [--browser BROWSER]
@@ -178,7 +185,7 @@ Internally, the *UPSTREAM* version of the playlist is fetched directly from YouT
 Note that this step can also be performed locally, with a **local diff**.
 
 <details>
-  <summary>Usage</summary>
+  <summary><ins>Usage :</ins> <code>local-diff</code></summary>
 
 ```
 Usage: script.pyz local-diff [-h] --diff-base PATH --diff-with PATH
