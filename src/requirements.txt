@@ -1,7 +1,7 @@
 colorama==0.4.6
-prettytable==3.10.2
-rich-argparse==1.5.2
-yt-dlp==2024.7.16
+prettytable==3.16.0
+rich-argparse==1.7.0
+yt-dlp==2025.3.26
 
 # Indirect dependencies
 Brotli==1.1.0
