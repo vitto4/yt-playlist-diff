@@ -25,9 +25,7 @@ jobs:
 
       # 3 : Build the zipapp
       - name: Build the zipapp
-        run: |
-          cd src
-          python3 -m zipapp src --main=main:main --output=script.pyz
+        run: python3 -m zipapp src --main=main:main --output=script.pyz
 
       # 4 : Upload built pyz
       - name: Upload artifacts
