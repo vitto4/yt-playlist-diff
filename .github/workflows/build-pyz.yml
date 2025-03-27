@@ -1,0 +1,37 @@
+# Build the script from the main branch into a Python zipapp and upload it as an artifact.
+# https://docs.python.org/3/library/zipapp.html
+---
+name: "Build - Zipapp"
+
+# Only run when triggered manually
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build & Upload
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1 : Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2 : Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      # 3 : Build the zipapp
+      - name: Build the zipapp
+        run: |
+          cd src
+          python3 -m zipapp src --main=main:main --output=script.pyz
+
+      # 4 : Upload built pyz
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: script.pyz
