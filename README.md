@@ -15,7 +15,9 @@
 
 <p align="center"><i>A python script to dump and diff YouTube playlists as csv archives.</i></p>
 
-![screenshot.png](misc/example.png)
+<div align="center">
+  <picture><img src="misc/ascii-banner.svg" style="width: 93%;"></picture>
+</div>
 
 ## 🏮 Index
 1. [Overview](#-overview)
