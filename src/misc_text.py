@@ -203,6 +203,7 @@ err_file_write = (
     + RS
 )
 
+# TODO To be removed
 warn_archive_dates_wrong_order = (
     Fore.YELLOW
     + Style.NORMAL

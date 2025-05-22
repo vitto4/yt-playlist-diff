@@ -123,11 +123,6 @@ def _checkup(old_archive: dict, new_archive: dict) -> CheckupResult:
     if old_archive["playlist_id"] != new_archive["playlist_id"]:
         print(txt.warn_playlists_ids_do_not_match, end=" ")
         out = CheckupResult.PASS if _poll() else CheckupResult.ID
-    # The first file is newer than the second
-    if old_archive["save_date"] >= new_archive["save_date"]:
-        print(txt.warn_archive_dates_wrong_order, end=" ")
-        # We can handle this, no need to prompt for termination
-        # out = CheckupResult.PASS if poll() else CheckupResult.DATE
 
     return out
 

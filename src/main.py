@@ -146,6 +146,10 @@ def main():
                 print(txt.err_file_read.format(file_path=args.diff_with))
                 txt.error_handler()
 
+            # Ensure we get the oldest playlist as the `base`
+            if base["save_date"] > against["save_date"]:
+                base, against = against, base
+
             diff.diff(base, against)
 
 
