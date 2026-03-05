@@ -1,7 +1,7 @@
 colorama==0.4.6
 prettytable==3.16.0
 rich-argparse==1.7.0
-yt-dlp==2025.4.30
+yt-dlp==2026.2.21
 
 # Indirect dependencies
 markdown-it-py==3.0.0
